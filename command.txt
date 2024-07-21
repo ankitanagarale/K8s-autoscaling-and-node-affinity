@@ -1,0 +1,23 @@
+###install metric server 
+kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
+##check metric server
+kubectl get pods
+
+##
+kubectl  top nodes kubectl top pods -A
+
+##kubectl get hpa
+kubectl describe hpa utility-api
+
+##apply load using wrk tool
+ kubectl exec -it traffic-generator  -- sh
+ apk add wrk
+ wrk -c 5 -t 5 -d 300s -H "connection: close" http://utility-api-service:8080/api/stress
+
+##open onother terminal
+kubectl top pods
+kubetcl get hpa
+
+##### node affinity
+kubectl label nodes <node-name> utility-api=true
+kubectl get pods -o wide 
